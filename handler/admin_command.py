@@ -36,6 +36,18 @@ async def play_handler(message: Message, state: FSMContext, bot: Bot) -> None:
         )
 
 
+@router.message(Command("getusers"))
+async def get_users(message: Message, state: FSMContext, bot: Bot) -> None:
+    if message.from_user.username == ADMIN_USERNAME:
+        all_users = await users.get_users()
+        for user in all_users:
+            await message.answer(f"{user[0]} - {user[1]}")
+    else:
+        await message.answer(
+            "Не балуйся, а то получишь по попе 😡",
+        )
+
+
 def secret_santa_partners(participants):
     shuffled_list = participants.copy()
     random.shuffle(shuffled_list)
