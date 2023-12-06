@@ -71,13 +71,25 @@ async def get_partners_info(message: Message, state: FSMContext, bot: Bot) -> No
     if message.from_user.username == ADMIN_USERNAME:
         all_users = await users.get_users()
         for user in all_users:
-            get_user_info = await users.get_user(user[0])
+            get_user_info = await users.get_user(int(user[0]))
             giver = get_user_info[1]
             giver_username = get_user_info[2]
-            get_reciver_info = await users.get_user(get_user_info[7])
+            get_reciver_info = await users.get_user(int(get_user_info[7]))
             receiver = get_reciver_info[1]
             receiver_username = get_reciver_info[2]
             await message.answer(f"{giver}(@{giver_username}) дарит подарок {receiver}(@{receiver_username})")
+
+    else:
+        await message.answer(
+            "Не балуйся, а то получишь по попе 😡",
+        )
+
+@router.message(Command("123"))
+async def get_partners_info(message: Message, state: FSMContext, bot: Bot) -> None:
+    if message.from_user.username == ADMIN_USERNAME:
+        all_users = await users.get_users()
+        for user in all_users:
+            await message.answer(f"{user[0]} -> {user[7]}")
 
     else:
         await message.answer(
